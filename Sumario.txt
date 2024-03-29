@@ -1,0 +1,14 @@
+Información descrgada de Kaggle
+Creación de la base de datos acogiendo cada tabla representada por un csv (esto de momento no nos vale, quizás en el futuro, sí)
+De momento trabajamos sobre el proyecto de la otra asignatura, cuando se vaya encaminando, lo sacamos a proyecto nuevo.
+Los csv los procesamos para poder insertar enla base de datos registros bien formados. Pandas/Spark
+csv_products
+	Los vacios, sustituir por "Sin definir"
+	- "Color"
+	- "ModelDescription"
+	- "FabricDescription"
+
+csv_etc
+Ya tenemos uno conseguido, hacemos proyecto nuevo. CuadroMandos_underwear
+
+Ver los registros que se tienen y se extraen las preguntas para los gráficos Kpi
