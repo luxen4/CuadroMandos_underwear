@@ -1,0 +1,10 @@
+ProductID,ProductName,Color,ModelDescription,FabricDescription,Category,Gender,ProductLine,Weight,Size,PackSize,Status,InventoryDate,PurchasePrice
+1,3-182,Sin definir,AT,182.0,Undershirts,Girls' Undershirts,Underwear,822.0,15.83,Dozen,In Production,7/10/2003,6.6
+2,3-183,Sin definir,AT,183.0,Undershirts,Girls' Undershirts,Underwear,620.0,3.0,Sin definir,Out of Production,7/10/2003,5.6
+3,3-184,Sin definir,AT,101.57,Undershirts,Girls' Undershirts,Underwear,718.0,3.0,Dozen,In Production,29-03-2024,6.3
+4,3-185,Sin definir,AT,185.0,Sin definir,Boys' Undershirts,Underwear,820.0,3.0,Dozen,In Production,7/10/2003,5.6
+5,3-A30N,Sin definir,A,30.0,Briefs,Girls' Panties,Underwear,214.0,3.0,Dozen,Out of Production,8/6/2003,3.3
+6,3-BX34,Sin definir,BX,34.0,Boxers,Sin definir,Underwear,55.0,3.0,Single Unit,Out of Production,7/10/2003,0.62
+7,3-BX64,Sin definir,BX,64.0,Boxers,Boys' Briefs,Underwear,55.0,80.0,Single Unit,Out of Production,29-03-2024,0.47
+8,3-ERK33,Sin definir,Sin definir,33.0,Briefs,Boys' Briefs,Sin definir,389.0,15.83,Sin definir,Out of Production,29-03-2024,3.25
+9,Sin definir,Sin definir,Sin definir,101.57,Sin definir,Sin definir,Sin definir,461.62,15.83,Sin definir,Sin definir,29-03-2024,3.97

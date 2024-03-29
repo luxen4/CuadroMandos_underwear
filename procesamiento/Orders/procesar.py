@@ -11,6 +11,7 @@ spark = SparkSession.builder \
 
 # Cargar el archivo CSV en un DataFrame de Spark
 df = spark.read.csv("orders.csv", header=True, inferSchema=True)
+df = spark.read.csv("orders - copia.csv", header=True, inferSchema=True)
 
 # Sustituir los valores nulos en la columna específica "OrderID" con un valor específico (por ejemplo, 0)
 columna_especifica = "OrderID"
@@ -29,10 +30,10 @@ columna_especifica = "ShippingMethodID"
 valor_reemplazo = 9
 df_filtrado = df_filtrado.na.fill({columna_especifica: valor_reemplazo})
 
+
 # Sustituir los valores nulos en la columna de fecha con la fecha actual
 columna_fecha = "OrderDate"
 df_filtrado = df_filtrado.na.fill({columna_fecha: datetime.now().strftime("%d-%m-%Y")})
-
 
 columna_fecha = "ShipDate"
 df_filtrado = df_filtrado.na.fill({columna_fecha: datetime.now().strftime("%d-%m-%Y")})
@@ -53,7 +54,7 @@ df_filtrado = df_filtrado.withColumn(columna_especifica, when(col(columna_especi
 #df_filtrado.show()                                             # Mostrar el DataFrame con los valores nulos sustituidos
 
 df_pandas = df_filtrado.toPandas()                              # Convertir el DataFrame de Spark a un DataFrame de Pandas
-df_pandas.to_csv("orderslimpio.csv", index=False)
+df_pandas.to_csv("orderslimpia.csv", index=False)
 
 # Detener la sesión de Spark
 spark.stop()

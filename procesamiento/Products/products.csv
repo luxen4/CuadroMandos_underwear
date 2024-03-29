@@ -1,0 +1,10 @@
+"ProductID","ProductName","Color","ModelDescription","FabricDescription","Category","Gender","ProductLine","Weight","Size","PackSize","Status","InventoryDate","PurchasePrice"
+"1","3-182","","AT","182","Undershirts","Girls' Undershirts","Underwear","822",,"Dozen","In Production","7/10/2003","6.60"
+"2","3-183","","AT","183","Undershirts","Girls' Undershirts","Underwear","620","3",,"Out of Production","7/10/2003","5.60"
+"3","3-184","","AT",,"Undershirts","Girls' Undershirts","Underwear","718","3","Dozen","In Production",,"6.30"
+"4","3-185","","AT","185",,"Boys' Undershirts","Underwear","820","3","Dozen","In Production","7/10/2003","5.60"
+"5","3-A30N","","A","30","Briefs","Girls' Panties","Underwear","214","3","Dozen","Out of Production","8/6/2003","3.30"
+"6","3-BX34","","BX","34","Boxers",,"Underwear","55","3","Single Unit","Out of Production","7/10/2003","0.62"
+"7","3-BX64","","BX","64","Boxers","Boys' Briefs","Underwear","55","80","Single Unit","Out of Production",,"0.47"
+"8","3-ERK33","",,"33","Briefs","Boys' Briefs",,"389",,,"Out of Production","","3.25"
+9,,"",,,,"",,,"","",,,

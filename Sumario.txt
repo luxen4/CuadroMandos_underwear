@@ -10,5 +10,7 @@ csv_products
 
 csv_etc
 Ya tenemos uno conseguido, hacemos proyecto nuevo. CuadroMandos_underwear
+Ya tenemos los csv limpios
+Meter poco a poco a power-bi
 
 Ver los registros que se tienen y se extraen las preguntas para los gráficos Kpi
