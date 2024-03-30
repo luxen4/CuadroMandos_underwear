@@ -1,8 +1,10 @@
 from pyspark.sql import SparkSession
 import pandas as pd
 from datetime import datetime
-from pyspark.sql.functions import col, mean                   # python3 -m pip install numpy
+from pyspark.sql.functions import col, mean , month ,lit                 # python3 -m pip install numpy
 from pyspark.sql.functions import current_date, when
+from pyspark.sql.functions import substring
+
 
 # Inicializar la sesión de Spark
 spark = SparkSession.builder \
@@ -11,7 +13,7 @@ spark = SparkSession.builder \
 
 # Cargar el archivo CSV en un DataFrame de Spark
 df = spark.read.csv("orders.csv", header=True, inferSchema=True)
-df = spark.read.csv("orders - copia.csv", header=True, inferSchema=True)
+#df = spark.read.csv("orders - copia.csv", header=True, inferSchema=True)
 
 # Sustituir los valores nulos en la columna específica "OrderID" con un valor específico (por ejemplo, 0)
 columna_especifica = "OrderID"
@@ -30,13 +32,18 @@ columna_especifica = "ShippingMethodID"
 valor_reemplazo = 9
 df_filtrado = df_filtrado.na.fill({columna_especifica: valor_reemplazo})
 
-
+# Ojo que las fechas van a mes/dia/año
 # Sustituir los valores nulos en la columna de fecha con la fecha actual
 columna_fecha = "OrderDate"
-df_filtrado = df_filtrado.na.fill({columna_fecha: datetime.now().strftime("%d-%m-%Y")})
+df_filtrado = df_filtrado.na.fill({columna_fecha: datetime.now().strftime("%m/%d/%Y")})
+df_filtrado = df_filtrado.withColumn("Año", substring(col("OrderDate"), -4, 4).cast("int"))
+
+# df_filtrado = df_filtrado.withColumn("Mes", substring(col("OrderDate"), -10, 2).cast("int"))
+# df_filtrado = df_filtrado.withColumn("Mes/Año", substring(col("OrderDate"), -7, 7))
+
 
 columna_fecha = "ShipDate"
-df_filtrado = df_filtrado.na.fill({columna_fecha: datetime.now().strftime("%d-%m-%Y")})
+df_filtrado = df_filtrado.na.fill({columna_fecha: datetime.now().strftime("%m/%d/%Y")})
 
 columna_especifica = "FreightCharge"
 valor_reemplazo = 0.0

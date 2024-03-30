@@ -12,7 +12,7 @@ spark = SparkSession.builder \
 
 # Cargar el archivo CSV en un DataFrame de Spark
 df_filtrado = spark.read.csv("products.csv", header=True, inferSchema=True)
-# df_filtrado = spark.read.csv("products - copia.csv", header=True, inferSchema=True)
+df_filtrado = spark.read.csv("products - copia.csv", header=True, inferSchema=True)
 
 
 df_filtrado.show() 

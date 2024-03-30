@@ -146,3 +146,14 @@ ProductID INTEGER REFERENCES products(ProductID) ON DELETE CASCADE,
 QuantitySold VARCHAR(7),
 UnitSalesPrice VARCHAR(10)
 );
+
+
+
+
+
+Graficos:
+Orders: Ventas según año (falta prepararlo por mes/año), mi fecha "now" no la mete en el mismo formato.
+
+
+Customers
+Uno de nuestros mayores clientes es Russian Federation y es allí donde queremos ver el desglose de clase de cliente que nos compra.
