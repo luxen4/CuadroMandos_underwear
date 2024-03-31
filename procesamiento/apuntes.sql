@@ -151,9 +151,35 @@ UnitSalesPrice VARCHAR(10)
 
 
 
+purchase_order (separar el mes y sacar las )
+    - Número de ordenes de compra por mes
+
+
+paiments        
+Tareas: separar el mes de PaymentDate
+PaymentID,OrderID,PaymentMethodID,PaymentDate,PaymentAmount
+1.0,2.0,1,7/10/2003,603.50
+
+    - De cada mes lo que se ingresa
+    - Sacar al año el valor total, mostrar los 4 años
+
+
 Graficos:
 Orders: Ventas según año (falta prepararlo por mes/año), mi fecha "now" no la mete en el mismo formato.
+
+products
+    - Qué porcentaje de cada producto se vende
 
 
 Customers
 Uno de nuestros mayores clientes es Russian Federation y es allí donde queremos ver el desglose de clase de cliente que nos compra.
+
+
+
+Order_details
+    Cuantía de ventas de cada producto. (ventas * precio/unidad * cantidad)
+    Cuáles se venden más (se venden más pero se podría tener menos beneficio)
+
+
+Beneficios
+    Ingresos totales por cada més/año ( suma de (precio/unidad * cantidad) en cada order_details  /mes)
