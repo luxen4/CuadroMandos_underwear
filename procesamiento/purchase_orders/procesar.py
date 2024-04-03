@@ -1,8 +1,7 @@
 from pyspark.sql import SparkSession
 import pandas as pd
 from datetime import datetime
-from pyspark.sql.functions import col, mean                   # python3 -m pip install numpy
-from pyspark.sql.functions import current_date, when
+from pyspark.sql.functions import col, mean, current_date, when, substring                   # python3 -m pip install numpy
 
 # Inicializar la sesión de Spark
 spark = SparkSession.builder \
@@ -11,8 +10,8 @@ spark = SparkSession.builder \
 
 
 # Cargar el archivo CSV en un DataFrame de Spark
-df_filtrado = spark.read.csv("purchase_orders.csv", header=True, inferSchema=True)
-# df_filtrado = spark.read.csv("products - copia.csv", header=True, inferSchema=True)
+# df_filtrado = spark.read.csv("purchase_orders.csv", header=True, inferSchema=True)
+df_filtrado = spark.read.csv("purchase_orders - copia.csv", header=True, inferSchema=True)
 
 df_filtrado.show() 
 
@@ -26,7 +25,10 @@ for columna in listaSinDefinir :
 
 # Sustituir los valores nulos en la columna de fecha con la fecha actual
 columna_fecha = "OrderDate"
-df_filtrado = df_filtrado.na.fill({columna_fecha: datetime.now().strftime("%d/%m/%Y")})
+df_filtrado = df_filtrado.na.fill({columna_fecha: datetime.now().strftime("%m/%d/%Y")})
+
+df_filtrado = df_filtrado.withColumn("Año", substring(col("OrderDate"), -4, 4).cast("int"))
+# df_filtrado = df_filtrado.withColumn("Mes", substring(col("OrderDate"), -10, 2).cast("int")) los datos no están uniformes en el mes.
 
 
 #df_filtrado.show()                                             # Mostrar el DataFrame con los valores nulos sustituidos

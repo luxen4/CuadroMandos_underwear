@@ -12,8 +12,8 @@ spark = SparkSession.builder \
     .getOrCreate()
 
 # Cargar el archivo CSV en un DataFrame de Spark
-df = spark.read.csv("orders.csv", header=True, inferSchema=True)
-#df = spark.read.csv("orders - copia.csv", header=True, inferSchema=True)
+# df = spark.read.csv("orders.csv", header=True, inferSchema=True)
+df = spark.read.csv("orders - copia.csv", header=True, inferSchema=True)
 
 # Sustituir los valores nulos en la columna específica "OrderID" con un valor específico (por ejemplo, 0)
 columna_especifica = "OrderID"

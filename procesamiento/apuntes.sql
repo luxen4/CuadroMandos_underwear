@@ -148,7 +148,7 @@ UnitSalesPrice VARCHAR(10)
 );
 
 
-
+targetas de amount por años, se extrae de Order_details
 
 
 purchase_order (separar el mes y sacar las )
@@ -168,18 +168,56 @@ Graficos:
 Orders: Ventas según año (falta prepararlo por mes/año), mi fecha "now" no la mete en el mismo formato.
 
 products
-    - Qué porcentaje de cada producto se vende
+    Gráfico de pastel
+    - Qué porcentaje de cada producto se vende. 
+
+    Grafico de barras
+    -Por categoría cual se vende más
+
 
 
 Customers
-Uno de nuestros mayores clientes es Russian Federation y es allí donde queremos ver el desglose de clase de cliente que nos compra.
+    -Regiones que más compran.
+    -Qué customers nos dejan más beneficios 
+    -Uno de nuestros mayores clientes es Russian Federation y es allí 
+     donde queremos ver el desglose de clase de cliente que nos compra.
 
 
+
+Orders
+    Grafico de barras
+    - Número de ordenes por año o mes
 
 Order_details
-    Cuantía de ventas de cada producto. (ventas * precio/unidad * cantidad)
-    Cuáles se venden más (se venden más pero se podría tener menos beneficio)
+    Grafico de pastel
+    -Cuantía de ventas de cada producto. (ventas * precio/unidad * cantidad)
+    -Cuáles se venden más (se venden más pero se podría tener menos beneficio)
 
 
-Beneficios
-    Ingresos totales por cada més/año ( suma de (precio/unidad * cantidad) en cada order_details  /mes)
+    Beneficios totales
+    -Ingresos totales por cada més/año ( suma de (precio/unidad * cantidad) en cada order_details  /mes)
+
+
+
+employees
+    employees:
+    "EmployeeID","EmployeeName"
+    1,"E1"   
+
+    orders
+    "OrderID","CustomerID","EmployeeID","ShippingMethodID","OrderDate","ShipDate","FreightCharge"
+    "2","1","1","1","7/10/2003","7/10/2003",
+
+    payments:
+    "PaymentID","OrderID","PaymentMethodID","PaymentDate","PaymentAmount"
+    "1","2","1","7/10/2003","603.50"
+
+
+    - Qué empleados venden más en cuanto a nº de orders y facturación 
+
+
+payments
+"PaymentID","OrderID","PaymentMethodID","PaymentDate","PaymentAmount"
+"1","2","1","7/10/2003","603.50"
+    Gráfico de barras con los años y la suma de PaymentAmount
+    - Cuanto se factura. 
