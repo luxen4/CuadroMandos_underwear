@@ -103,7 +103,6 @@ SupplierName VARCHAR(30)
 
 
 
-
 "PurchaseOrderID","SupplierID","EmployeeID","ShippingMethodID","OrderDate"
 "25","1","1","3","10/15/2003"
 
@@ -114,9 +113,6 @@ EmployeeID INTEGER REFERENCES employees(EmployeeID) ON DELETE CASCADE,
 ShippingMethodID VARCHAR(10), 
 OrderDate DATE
 );
-
-
-
 
 
 "TransactionID","ProductID","PurchaseOrderID","MissingID","TransactionDate","UnitPurchasePrice","QuantityOrdered",
@@ -146,78 +142,3 @@ ProductID INTEGER REFERENCES products(ProductID) ON DELETE CASCADE,
 QuantitySold VARCHAR(7),
 UnitSalesPrice VARCHAR(10)
 );
-
-
-targetas de amount por años, se extrae de Order_details
-
-
-purchase_order (separar el mes y sacar las )
-    - Número de ordenes de compra por mes
-
-
-paiments        
-Tareas: separar el mes de PaymentDate
-PaymentID,OrderID,PaymentMethodID,PaymentDate,PaymentAmount
-1.0,2.0,1,7/10/2003,603.50
-
-    - De cada mes lo que se ingresa
-    - Sacar al año el valor total, mostrar los 4 años
-
-
-Graficos:
-Orders: Ventas según año (falta prepararlo por mes/año), mi fecha "now" no la mete en el mismo formato.
-
-products
-    Gráfico de pastel
-    - Qué porcentaje de cada producto se vende. 
-
-    Grafico de barras
-    -Por categoría cual se vende más
-
-
-
-Customers
-    -Regiones que más compran.
-    -Qué customers nos dejan más beneficios 
-    -Uno de nuestros mayores clientes es Russian Federation y es allí 
-     donde queremos ver el desglose de clase de cliente que nos compra.
-
-
-
-Orders
-    Grafico de barras
-    - Número de ordenes por año o mes
-
-Order_details
-    Grafico de pastel
-    -Cuantía de ventas de cada producto. (ventas * precio/unidad * cantidad)
-    -Cuáles se venden más (se venden más pero se podría tener menos beneficio)
-
-
-    Beneficios totales
-    -Ingresos totales por cada més/año ( suma de (precio/unidad * cantidad) en cada order_details  /mes)
-
-
-
-employees
-    employees:
-    "EmployeeID","EmployeeName"
-    1,"E1"   
-
-    orders
-    "OrderID","CustomerID","EmployeeID","ShippingMethodID","OrderDate","ShipDate","FreightCharge"
-    "2","1","1","1","7/10/2003","7/10/2003",
-
-    payments:
-    "PaymentID","OrderID","PaymentMethodID","PaymentDate","PaymentAmount"
-    "1","2","1","7/10/2003","603.50"
-
-
-    - Qué empleados venden más en cuanto a nº de orders y facturación 
-
-
-payments
-"PaymentID","OrderID","PaymentMethodID","PaymentDate","PaymentAmount"
-"1","2","1","7/10/2003","603.50"
-    Gráfico de barras con los años y la suma de PaymentAmount
-    - Cuanto se factura. 

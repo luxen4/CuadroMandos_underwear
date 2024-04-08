@@ -1,9 +1,9 @@
 from pyspark.sql import SparkSession
 import pandas as pd
 from datetime import datetime
-from pyspark.sql.functions import col, mean , month ,lit                 # python3 -m pip install numpy
+from pyspark.sql.functions import col, mean , month ,lit, substring                # python3 -m pip install numpy
 from pyspark.sql.functions import current_date, when
-from pyspark.sql.functions import substring
+
 
 
 # Inicializar la sesión de Spark
@@ -12,8 +12,8 @@ spark = SparkSession.builder \
     .getOrCreate()
 
 # Cargar el archivo CSV en un DataFrame de Spark
-# df = spark.read.csv("orders.csv", header=True, inferSchema=True)
-df = spark.read.csv("orders - copia.csv", header=True, inferSchema=True)
+#df = spark.read.csv("ordersprueba.csv", header=True, inferSchema=True)
+df = spark.read.csv("./../../csv_originales/orders.csv", header=True, inferSchema=True)
 
 # Sustituir los valores nulos en la columna específica "OrderID" con un valor específico (por ejemplo, 0)
 columna_especifica = "OrderID"
