@@ -1,7 +1,7 @@
 from pyspark.sql import SparkSession
 import pandas as pd
 from datetime import datetime
-from pyspark.sql.functions import col, mean , month ,lit, substring                # python3 -m pip install numpy
+from pyspark.sql.functions import col, mean , month ,lit, concat, substring                # python3 -m pip install numpy
 from pyspark.sql.functions import current_date, when
 
 
@@ -12,8 +12,8 @@ spark = SparkSession.builder \
     .getOrCreate()
 
 # Cargar el archivo CSV en un DataFrame de Spark
-#df = spark.read.csv("ordersprueba.csv", header=True, inferSchema=True)
-df = spark.read.csv("./../../csv_originales/orders.csv", header=True, inferSchema=True)
+df = spark.read.csv("ordersprueba.csv", header=True, inferSchema=True)
+#df = spark.read.csv("./../../csv_originales/orders.csv", header=True, inferSchema=True)
 
 # Sustituir los valores nulos en la columna específica "OrderID" con un valor específico (por ejemplo, 0)
 columna_especifica = "OrderID"
@@ -32,13 +32,33 @@ columna_especifica = "ShippingMethodID"
 valor_reemplazo = 9
 df_filtrado = df_filtrado.na.fill({columna_especifica: valor_reemplazo})
 
+
+
+
+
+
+
+
+
 # Ojo que las fechas van a mes/dia/año
 # Sustituir los valores nulos en la columna de fecha con la fecha actual
 columna_fecha = "OrderDate"
+
+# Agregar cero delante del día si solo tiene un dígito
+df_filtrado = df_filtrado.withColumn(columna_fecha,
+                                     when(substring(col(columna_fecha), 3, 1) == "/", 
+                                          concat("0", col(columna_fecha)))
+                                     .otherwise(col(columna_fecha)))
+
+# Agregar cero delante del mes si solo tiene un dígito
+df_filtrado = df_filtrado.withColumn(columna_fecha,
+                                     when(substring(col(columna_fecha), 6, 1) == "/", 
+                                          concat(substring(col(columna_fecha), 1, 5), "0", substring(col(columna_fecha), 6)))
+                                     .otherwise(col(columna_fecha)))
+
 df_filtrado = df_filtrado.na.fill({columna_fecha: datetime.now().strftime("%m/%d/%Y")})
 df_filtrado = df_filtrado.withColumn("Año", substring(col("OrderDate"), -4, 4).cast("int"))
-
-# df_filtrado = df_filtrado.withColumn("Mes", substring(col("OrderDate"), -10, 2).cast("int"))
+df_filtrado = df_filtrado.withColumn("Mes", substring(col("OrderDate"), -10, 2).cast("int"))
 # df_filtrado = df_filtrado.withColumn("Mes/Año", substring(col("OrderDate"), -7, 7))
 
 
