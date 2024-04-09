@@ -1,7 +1,7 @@
 from pyspark.sql import SparkSession
 import pandas as pd
 from datetime import datetime
-from pyspark.sql.functions import col, mean, current_date, when, substring                   # python3 -m pip install numpy
+from pyspark.sql.functions import when, mean,  col, substring, lit, current_date, year, month, concat, to_date, date_format
 
 # Inicializar la sesión de Spark
 spark = SparkSession.builder \
@@ -11,7 +11,7 @@ spark = SparkSession.builder \
 
 # Cargar el archivo CSV en un DataFrame de Spark
 # df_filtrado = spark.read.csv("inventory_transactions.csv", header=True, inferSchema=True)
-df_filtrado = spark.read.csv("inventory_transactions - copia.csv", header=True, inferSchema=True)
+df_filtrado = spark.read.csv("./../../csv_originales/inventory_transactions.csv", header=True, inferSchema=True)
 
 
 df_filtrado.show() 
@@ -54,9 +54,22 @@ for columna in listaMedia :
 
 # Sustituir los valores nulos en la columna de fecha con la fecha actual
 columna_fecha = "TransactionDate"
-#df_filtrado = df_filtrado.na.fill({columna_fecha: datetime.now().strftime("%m/%d/%Y")})
-df_filtrado = df_filtrado.withColumn("Año", substring(col("TransactionDate"), -4, 4).cast("int"))
-df_filtrado = df_filtrado.withColumn("Mes", substring(col("TransactionDate"), -10, 2).cast("int"))
+df_filtrado = df_filtrado.na.fill({columna_fecha: datetime.now().strftime("%m/%d/%Y")})        # Nulos a fecha actual
+df_filtrado = df_filtrado.withColumn(columna_fecha, to_date(col(columna_fecha), "M/d/yyyy"))     # Castear a Date
+df_filtrado = df_filtrado.withColumn("Año", year(columna_fecha))
+df_filtrado = df_filtrado.withColumn("Mes", month(columna_fecha))
+df_filtrado = df_filtrado.withColumn("Mes/Año", concat(month(columna_fecha), lit("/"), year(columna_fecha)))
+
+
+
+
+
+
+
+
+
+
+
 
 # Eliminar registros con valores nulos en una columna específica,
 # SOLO HAY UN PAR E REGISTROS, SE ELIMINAN, NO MERECE LA PENA SACAR EL GRAFICO EN BLANCO

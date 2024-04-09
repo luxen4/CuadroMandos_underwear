@@ -1,18 +1,15 @@
 from pyspark.sql import SparkSession
 import pandas as pd
 from datetime import datetime
-from pyspark.sql.functions import col, mean                   # python3 -m pip install numpy
-from pyspark.sql.functions import current_date, when
+from pyspark.sql.functions import when, mean,  col, substring, lit, current_date, year, month, concat, to_date, date_format
 
 # Inicializar la sesión de Spark
 spark = SparkSession.builder \
     .appName("Sustitución de Nulos en Columna Específica") \
     .getOrCreate()
 
-
-# Cargar el archivo CSV en un DataFrame de Spark
-df_filtrado = spark.read.csv("products.csv", header=True, inferSchema=True)
-#df_filtrado = spark.read.csv("products - copia.csv", header=True, inferSchema=True)
+# df_filtrado = spark.read.csv("products.csv", header=True, inferSchema=True)
+df_filtrado = spark.read.csv("./../../csv_originales/products.csv", header=True, inferSchema=True)
 
 
 df_filtrado.show() 
@@ -25,7 +22,11 @@ for columna in listaSinDefinir :
 
 # Sustituir los valores nulos en la columna de fecha con la fecha actual
 columna_fecha = "InventoryDate"
-df_filtrado = df_filtrado.na.fill({columna_fecha: datetime.now().strftime("%d-%m-%Y")})
+df_filtrado = df_filtrado.na.fill({columna_fecha: datetime.now().strftime("%m/%d/%Y")})        # Nulos a fecha actual
+df_filtrado = df_filtrado.withColumn(columna_fecha, to_date(col(columna_fecha), "M/d/yyyy"))     # Castear a Date
+df_filtrado = df_filtrado.withColumn("Año", year(columna_fecha))
+df_filtrado = df_filtrado.withColumn("Mes", month(columna_fecha))
+df_filtrado = df_filtrado.withColumn("Mes/Año", concat(month(columna_fecha), lit("/"), year(columna_fecha)))
 
 
 # Sustituir los valores vacios con la media
@@ -42,6 +43,3 @@ df_pandas.to_csv("productslimpia.csv", index=False)
 
 # Detener la sesión de Spark
 spark.stop()
-
-
-#### Meter este código en Orders
