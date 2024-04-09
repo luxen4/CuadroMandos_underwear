@@ -1,18 +1,16 @@
 from pyspark.sql import SparkSession
 import pandas as pd
 from datetime import datetime
-                 # python3 -m pip install numpy
-from pyspark.sql.functions import  mean,  col, substring, lit, current_date, when, to_date, date_format
+from pyspark.sql.functions import  mean,  col, substring, lit, current_date, when, year, month, concat, to_date, date_format
 
 # Inicializar la sesión de Spark
 spark = SparkSession.builder \
     .appName("Sustitución de Nulos en Columna Específica") \
     .getOrCreate()
 
-
 # Cargar el archivo CSV en un DataFrame de Spark
-#df_filtrado = spark.read.csv("payments.csv", header=True, inferSchema=True)
-df_filtrado = spark.read.csv("payments - copia.csv", header=True, inferSchema=True)
+# df_filtrado = spark.read.csv("payments.csv", header=True, inferSchema=True)
+df_filtrado = spark.read.csv("./../../csv_originales/payments.csv", header=True, inferSchema=True)
 
 
 df_filtrado.show() 
@@ -26,11 +24,6 @@ for columna in listaSinDefinir :
     df_filtrado = df_filtrado.na.fill({columna: valor_reemplazo})
     
 
-# Sustituir los valores nulos en la columna de fecha con la fecha actual
-columna_fecha = "PaymentDate"
-df_filtrado = df_filtrado.na.fill({columna_fecha: datetime.now().strftime("%m-%d-%Y")})
-
-
 # Sustituir los valores vacios con la media
 listaMedia=['PaymentAmount']
 for columna in listaMedia :
@@ -39,12 +32,14 @@ for columna in listaMedia :
     df_filtrado = df_filtrado.withColumn(columna, when(col(columna).isNull(), mean_quantity_sold).otherwise(col(columna)))
 
 
-
-# Sustituir los valores nulos en la columna de fecha con la fecha actual
+# Fechas van a mes/dia/año
 columna_fecha = "PaymentDate"
-df_filtrado = df_filtrado.na.fill({columna_fecha: datetime.now().strftime("%m/%d/%Y")})
-df_filtrado = df_filtrado.withColumn("Año", substring(col("PaymentDate"), -4, 4).cast("int"))
-df_filtrado = df_filtrado.withColumn("Mes", substring(col("PaymentDate"), -10, 2).cast("int"))
+df_filtrado = df_filtrado.na.fill({columna_fecha: datetime.now().strftime("%m/%d/%Y")})        # Nulos a fecha actual
+df_filtrado = df_filtrado.withColumn(columna_fecha, to_date(col("PaymentDate"), "M/d/yyyy"))     # Castear a Date
+df_filtrado = df_filtrado.withColumn("Año", year("PaymentDate"))
+df_filtrado = df_filtrado.withColumn("Mes", month("PaymentDate"))
+df_filtrado = df_filtrado.withColumn("Mes/Año", concat(month("PaymentDate"), lit("/"), year("PaymentDate")))
+
 
 #df_filtrado.show()                                             # Mostrar el DataFrame con los valores nulos sustituidos
 df_pandas = df_filtrado.toPandas()                              # Convertir el DataFrame de Spark a un DataFrame de Pandas
@@ -53,5 +48,3 @@ df_pandas.to_csv("paymentslimpia.csv", index=False)
 # Detener la sesión de Spark
 spark.stop()
 
-
-#### Meter este código en Orders

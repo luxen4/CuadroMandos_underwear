@@ -14,3 +14,12 @@ Ya tenemos los csv limpios
 Meter poco a poco a power-bi
 
 Ver los registros que se tienen y se extraen las preguntas para los gráficos Kpi
+
+
+# python3 -m pip install numpy
+
+'''
+PS C:\Users\Adrian\Desktop\CuadroMandos_underwear> cd procesamiento
+PS C:\Users\Adrian\Desktop\CuadroMandos_underwear\procesamiento> cd Orders
+PS C:\Users\Adrian\Desktop\CuadroMandos_underwear\procesamiento\Orders> python procesar.py
+'''
