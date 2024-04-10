@@ -12,7 +12,7 @@ spark = SparkSession.builder \
 # df = spark.read.csv("ordersprueba.csv", header=True, inferSchema=True)
 df = spark.read.csv("./../../csv_originales/orders.csv", header=True, inferSchema=True)
 
-# Sustituir los valores nulos en la columna específica "OrderID" con un valor específico (por ejemplo, 0)
+# Columnas con valores nulos
 columna_especifica = "OrderID"
 valor_reemplazo = 0
 df_filtrado = df.na.fill({columna_especifica: valor_reemplazo})
@@ -29,6 +29,8 @@ columna_especifica = "ShippingMethodID"
 valor_reemplazo = 2
 df_filtrado = df_filtrado.na.fill({columna_especifica: valor_reemplazo})
 
+
+
 # Fechas van a mes/dia/año
 columna_fecha = "OrderDate"
 df_filtrado = df_filtrado.na.fill({columna_fecha: datetime.now().strftime("%m/%d/%Y")})        # Nulos a fecha actual
@@ -38,9 +40,10 @@ df_filtrado = df_filtrado.withColumn("Mes", month(columna_fecha))
 df_filtrado = df_filtrado.withColumn("Dia", day(columna_fecha))
 df_filtrado = df_filtrado.withColumn("Mes/Año", concat(month(columna_fecha), lit("/"), year(columna_fecha)))
 
-# Tratamiento de nulos
+# Fechas Tratamiento de nulos con la fecha actual
 columna_fecha = "ShipDate"
 df_filtrado = df_filtrado.na.fill({columna_fecha: datetime.now().strftime("%m/%d/%Y")})
+
 
 columna_especifica = "FreightCharge"
 valor_reemplazo = 0.0
@@ -51,3 +54,9 @@ df_pandas = df_filtrado.toPandas()                              # Convertir el D
 df_pandas.to_csv("orderslimpia.csv", index=False)
 
 spark.stop()        # Detener la sesión de Spark
+
+
+
+# OrderID,CustomerID,EmployeeID,ShippingMethodID,OrderDate,ShipDate,FreightCharge
+# OrderID,CustomerID,EmployeeID,ShippingMethodID,OrderDate,ShipDate,FreightCharge,Año,Mes,Dia,Mes/Año
+# 2,1,1,1,2003-07-10,7/10/2003,0.0,2003,7,10,7/2003

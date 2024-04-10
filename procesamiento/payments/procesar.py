@@ -34,7 +34,7 @@ for columna in listaMedia :
 
 # Fechas van a mes/dia/año
 columna_fecha = "PaymentDate"
-df_filtrado = df_filtrado.na.fill({columna_fecha: datetime.now().strftime("%m/%d/%Y")})        # Nulos a fecha actual
+df_filtrado = df_filtrado.na.fill({columna_fecha: datetime.now().strftime("%m/%d/%Y")})          # Nulos a fecha actual
 df_filtrado = df_filtrado.withColumn(columna_fecha, to_date(col(columna_fecha), "M/d/yyyy"))     # Castear a Date
 df_filtrado = df_filtrado.withColumn("Año", year(columna_fecha))
 df_filtrado = df_filtrado.withColumn("Mes", month(columna_fecha))

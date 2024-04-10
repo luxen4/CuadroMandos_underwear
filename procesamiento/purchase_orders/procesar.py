@@ -35,13 +35,6 @@ df_filtrado = df_filtrado.withColumn("Dia", day(columna_fecha))
 df_filtrado = df_filtrado.withColumn("Mes/Año", concat(month(columna_fecha), lit("/"), year(columna_fecha)))
 
 
-
-
-
-
-
-
-
 #df_filtrado.show()                                             # Mostrar el DataFrame con los valores nulos sustituidos
 df_pandas = df_filtrado.toPandas()                              # Convertir el DataFrame de Spark a un DataFrame de Pandas
 df_pandas.to_csv("purchase_orderslimpia.csv", index=False)

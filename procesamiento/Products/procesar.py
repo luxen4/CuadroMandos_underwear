@@ -30,9 +30,6 @@ df_filtrado = df_filtrado.withColumn("Dia", day(columna_fecha))
 df_filtrado = df_filtrado.withColumn("Mes/Año", concat(month(columna_fecha), lit("/"), year(columna_fecha)))
 
 
-
-
-
 # Sustituir los valores vacios con la media
 listaMedia=['FabricDescription','PurchasePrice', 'Weight', 'Size']
 for columna in listaMedia :

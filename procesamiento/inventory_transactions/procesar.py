@@ -36,10 +36,8 @@ for columna in listaSinDefinir :
     
 
 # Sustituir los valores nulos en la columna de fecha con la fecha actual, la quito ya que es solo un registro y el gráfico sale mal.
-# columna_fecha = "TransactionDate"
-# df_filtrado = df_filtrado.na.fill({columna_fecha: datetime.now().strftime("%d/%m/%Y")})
-
-
+columna_fecha = "TransactionDate"
+df_filtrado = df_filtrado.na.fill({columna_fecha: datetime.now().strftime("%m/%d/%Y")})
 
 
 # Sustituir los valores vacios con la media
@@ -47,9 +45,7 @@ listaMedia=['QuantityOrdered','QuantityReceived']
 for columna in listaMedia :
     mean_quantity_sold = df_filtrado.select( mean(col(columna))).collect()[0][0]
     #mean_quantity_sold = round(mean_quantity_sold,2)
-    
     df_filtrado = df_filtrado.withColumn(columna, when(col(columna).isNull(), mean_quantity_sold).otherwise(col(columna)))
-
 
 
 # Sustituir los valores nulos en la columna de fecha con la fecha actual
@@ -59,16 +55,6 @@ df_filtrado = df_filtrado.withColumn(columna_fecha, to_date(col(columna_fecha), 
 df_filtrado = df_filtrado.withColumn("Año", year(columna_fecha))
 df_filtrado = df_filtrado.withColumn("Mes", month(columna_fecha))
 df_filtrado = df_filtrado.withColumn("Mes/Año", concat(month(columna_fecha), lit("/"), year(columna_fecha)))
-
-
-
-
-
-
-
-
-
-
 
 
 # Eliminar registros con valores nulos en una columna específica,
