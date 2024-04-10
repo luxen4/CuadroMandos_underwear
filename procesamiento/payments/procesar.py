@@ -1,7 +1,7 @@
 from pyspark.sql import SparkSession
 import pandas as pd
 from datetime import datetime
-from pyspark.sql.functions import  mean,  col, substring, lit, current_date, when, year, month, concat, to_date, date_format
+from pyspark.sql.functions import  mean,  col, substring, lit, current_date, when, day, year, month, concat, to_date, date_format
 
 # Inicializar la sesión de Spark
 spark = SparkSession.builder \
@@ -35,10 +35,13 @@ for columna in listaMedia :
 # Fechas van a mes/dia/año
 columna_fecha = "PaymentDate"
 df_filtrado = df_filtrado.na.fill({columna_fecha: datetime.now().strftime("%m/%d/%Y")})        # Nulos a fecha actual
-df_filtrado = df_filtrado.withColumn(columna_fecha, to_date(col("PaymentDate"), "M/d/yyyy"))     # Castear a Date
-df_filtrado = df_filtrado.withColumn("Año", year("PaymentDate"))
-df_filtrado = df_filtrado.withColumn("Mes", month("PaymentDate"))
-df_filtrado = df_filtrado.withColumn("Mes/Año", concat(month("PaymentDate"), lit("/"), year("PaymentDate")))
+df_filtrado = df_filtrado.withColumn(columna_fecha, to_date(col(columna_fecha), "M/d/yyyy"))     # Castear a Date
+df_filtrado = df_filtrado.withColumn("Año", year(columna_fecha))
+df_filtrado = df_filtrado.withColumn("Mes", month(columna_fecha))
+df_filtrado = df_filtrado.withColumn("Dia", day(columna_fecha))
+df_filtrado = df_filtrado.withColumn("Mes/Año", concat(month(columna_fecha), lit("/"), year(columna_fecha)))
+
+
 
 
 #df_filtrado.show()                                             # Mostrar el DataFrame con los valores nulos sustituidos

@@ -1,7 +1,7 @@
 from pyspark.sql import SparkSession
 import pandas as pd
 from datetime import datetime
-from pyspark.sql.functions import when, mean,  col, substring, lit, current_date, year, month, concat, to_date, date_format
+from pyspark.sql.functions import when, mean,  col, substring, lit, current_date, day, year, month, concat, to_date, date_format
 
 # Inicializar la sesión de Spark
 spark = SparkSession.builder \
@@ -10,8 +10,8 @@ spark = SparkSession.builder \
 
 
 # Cargar el archivo CSV en un DataFrame de Spark
-df_filtrado = spark.read.csv("purchase_orders.csv", header=True, inferSchema=True)
-#df_filtrado = spark.read.csv("./../../csv_originales/purchase_orders.csv", header=True, inferSchema=True)
+#df_filtrado = spark.read.csv("purchase_orders.csv", header=True, inferSchema=True)
+df_filtrado = spark.read.csv("./../../csv_originales/purchase_orders.csv", header=True, inferSchema=True)
 
 df_filtrado.show() 
 
@@ -24,12 +24,14 @@ for columna in listaSinDefinir :
     df_filtrado = df_filtrado.na.fill({columna: valor_reemplazo})
 
 
-columna_fecha = "OrderDate"
+
 # Sustituir los valores nulos en la columna de fecha con la fecha actual
+columna_fecha = "OrderDate"
 df_filtrado = df_filtrado.na.fill({columna_fecha: datetime.now().strftime("%m/%d/%Y")})        # Nulos a fecha actual
 df_filtrado = df_filtrado.withColumn(columna_fecha, to_date(col(columna_fecha), "M/d/yyyy"))     # Castear a Date
 df_filtrado = df_filtrado.withColumn("Año", year(columna_fecha))
 df_filtrado = df_filtrado.withColumn("Mes", month(columna_fecha))
+df_filtrado = df_filtrado.withColumn("Dia", day(columna_fecha))
 df_filtrado = df_filtrado.withColumn("Mes/Año", concat(month(columna_fecha), lit("/"), year(columna_fecha)))
 
 

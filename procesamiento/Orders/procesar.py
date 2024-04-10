@@ -1,16 +1,16 @@
 from pyspark.sql import SparkSession
 import pandas as pd
 from datetime import datetime
-from pyspark.sql.functions import col, mean , year, month ,lit, concat, substring                # python3 -m pip install numpy
+from pyspark.sql.functions import col, mean , year, month, day, lit, concat, substring                # python3 -m pip install numpy
 from pyspark.sql.functions import current_date, when, to_date
 
 # Inicializar la sesión de Spark
 spark = SparkSession.builder \
-    .appName("Sustitución de Nulos en Columna Específica") \
+    .appName("Procesamiento Orders") \
     .getOrCreate()
 
-df = spark.read.csv("ordersprueba.csv", header=True, inferSchema=True)
-#df = spark.read.csv("./../../csv_originales/orders.csv", header=True, inferSchema=True)
+# df = spark.read.csv("ordersprueba.csv", header=True, inferSchema=True)
+df = spark.read.csv("./../../csv_originales/orders.csv", header=True, inferSchema=True)
 
 # Sustituir los valores nulos en la columna específica "OrderID" con un valor específico (por ejemplo, 0)
 columna_especifica = "OrderID"
@@ -22,23 +22,23 @@ valor_reemplazo = 0
 df_filtrado = df_filtrado.na.fill({columna_especifica: valor_reemplazo})
 
 columna_especifica = "EmployeeID"
-valor_reemplazo = 0
+valor_reemplazo = 1
 df_filtrado = df_filtrado.na.fill({columna_especifica: valor_reemplazo})
 
 columna_especifica = "ShippingMethodID"
-valor_reemplazo = 9
+valor_reemplazo = 2
 df_filtrado = df_filtrado.na.fill({columna_especifica: valor_reemplazo})
-
 
 # Fechas van a mes/dia/año
 columna_fecha = "OrderDate"
 df_filtrado = df_filtrado.na.fill({columna_fecha: datetime.now().strftime("%m/%d/%Y")})        # Nulos a fecha actual
-df_filtrado = df_filtrado.withColumn(columna_fecha, to_date(col("OrderDate"), "M/d/yyyy"))     # Castear a Date
-df_filtrado = df_filtrado.withColumn("Año", year("OrderDate"))
-df_filtrado = df_filtrado.withColumn("Mes", month("OrderDate"))
-df_filtrado = df_filtrado.withColumn("Mes/Año", concat(month("OrderDate"), lit("/"), year("OrderDate")))
+df_filtrado = df_filtrado.withColumn(columna_fecha, to_date(col(columna_fecha), "M/d/yyyy"))     # Castear a Date
+df_filtrado = df_filtrado.withColumn("Año", year(columna_fecha))
+df_filtrado = df_filtrado.withColumn("Mes", month(columna_fecha))
+df_filtrado = df_filtrado.withColumn("Dia", day(columna_fecha))
+df_filtrado = df_filtrado.withColumn("Mes/Año", concat(month(columna_fecha), lit("/"), year(columna_fecha)))
 
-
+# Tratamiento de nulos
 columna_fecha = "ShipDate"
 df_filtrado = df_filtrado.na.fill({columna_fecha: datetime.now().strftime("%m/%d/%Y")})
 
